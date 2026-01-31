@@ -16,13 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { Box, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, useDisclosure } from "@chakra-ui/react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useTranslation } from "react-i18next";
 import { CgRedo } from "react-icons/cg";
 
 import { Tooltip } from "src/components/ui";
-import ActionButton from "src/components/ui/ActionButton";
 
 import ClearTaskInstanceDialog from "./ClearTaskInstanceDialog";
 
@@ -57,13 +56,16 @@ const ClearAllMappedTaskInstancesButton = ({ dagId, dagRunId, isHotkeyEnabled = 
       openDelay={100}
     >
       <Box>
-        <ActionButton
-          actionName={translate("dags:runAndTaskActions.clearAllMapped.button")}
-          icon={<CgRedo />}
+        <Button
+          aria-label={translate("dags:runAndTaskActions.clearAllMapped.button")}
+          colorPalette="brand"
           onClick={onOpen}
-          text={translate("dags:runAndTaskActions.clearAllMapped.button")}
-          withText={withText}
-        />
+          size="sm"
+          variant="ghost"
+        >
+          <CgRedo />
+          {withText ? ` ${translate("dags:runAndTaskActions.clearAllMapped.button")}` : null}
+        </Button>
 
         {open ? (
           <ClearTaskInstanceDialog
