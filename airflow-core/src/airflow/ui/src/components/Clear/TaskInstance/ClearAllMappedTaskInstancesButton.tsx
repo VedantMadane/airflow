@@ -24,7 +24,7 @@ import { CgRedo } from "react-icons/cg";
 import { Tooltip } from "src/components/ui";
 import ActionButton from "src/components/ui/ActionButton";
 
-import ClearAllMappedTaskInstancesDialog from "./ClearAllMappedTaskInstancesDialog";
+import ClearTaskInstanceDialog from "./ClearTaskInstanceDialog";
 
 type Props = {
   readonly dagId: string;
@@ -52,7 +52,7 @@ const ClearAllMappedTaskInstancesButton = ({ dagId, dagRunId, isHotkeyEnabled = 
       content={
         isHotkeyEnabled
           ? translate("dags:runAndTaskActions.clearAllMapped.buttonTooltip")
-          : translate("dags:runAndTaskActions.clearAllMapped.buttonTooltip")
+          : translate("dags:runAndTaskActions.clearAllMapped.button")
       }
       openDelay={100}
     >
@@ -66,7 +66,8 @@ const ClearAllMappedTaskInstancesButton = ({ dagId, dagRunId, isHotkeyEnabled = 
         />
 
         {open ? (
-          <ClearAllMappedTaskInstancesDialog
+          <ClearTaskInstanceDialog
+            allMapped={true}
             dagId={dagId}
             dagRunId={dagRunId}
             onClose={onClose}
