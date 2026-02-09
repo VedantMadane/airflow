@@ -28,23 +28,28 @@ import { handlers } from "src/mocks/handlers";
 
 // Ensure MSW can intercept axios requests in the happy-dom environment.
 // Axios picks the XHR adapter in browser-like environments; switch to http.
-axios.defaults.adapter = httpAdapter;
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+axios.defaults.adapter = httpAdapter as any;
 
+/**
+ * A polyfill for `localStorage` in the test environment.
+ * This ensures consistent behavior and prevents DOM-related errors during testing.
+ */
 const createLocalStorage = () => {
   const store = new Map<string, string>();
 
   return {
     clear: () => store.clear(),
     getItem: (key: string) => store.get(key) ?? null,
-    key: (index: number) => Array.from(store.keys())[index] ?? null,
+    key: (index: number) => [...store.keys()][index] ?? null,
+    get length() {
+      return store.size;
+    },
     removeItem: (key: string) => {
       store.delete(key);
     },
     setItem: (key: string, value: string) => {
       store.set(key, value);
-    },
-    get length() {
-      return store.size;
     },
   };
 };
