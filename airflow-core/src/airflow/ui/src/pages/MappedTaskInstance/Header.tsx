@@ -22,11 +22,20 @@ import { useTranslation } from "react-i18next";
 import { MdOutlineTask } from "react-icons/md";
 
 import type { LightGridTaskInstanceSummary } from "openapi/requests/types.gen";
+import { ClearTaskInstanceButton } from "src/components/Clear";
 import { HeaderCard } from "src/components/HeaderCard";
 import Time from "src/components/Time";
 import { getDuration } from "src/utils";
 
-export const Header = ({ taskInstance }: { readonly taskInstance: LightGridTaskInstanceSummary }) => {
+export const Header = ({
+  dagId,
+  dagRunId,
+  taskInstance,
+}: {
+  readonly dagId: string;
+  readonly dagRunId: string;
+  readonly taskInstance: LightGridTaskInstanceSummary;
+}) => {
   const { t: translate } = useTranslation();
   const entries: Array<{ label: string; value: number | ReactNode | string }> = [];
   let taskCount: number = 0;
@@ -55,6 +64,15 @@ export const Header = ({ taskInstance }: { readonly taskInstance: LightGridTaskI
   return (
     <Box>
       <HeaderCard
+        actions={
+          <ClearTaskInstanceButton
+            allMapped
+            dagId={dagId}
+            dagRunId={dagRunId}
+            taskId={taskInstance.task_id}
+            withText
+          />
+        }
         icon={<MdOutlineTask />}
         state={taskInstance.state}
         stats={stats}
